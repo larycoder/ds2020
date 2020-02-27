@@ -11,6 +11,9 @@ USTH ICT 2020 Distributed Systems
 Group Info
 =======================
 
-* Name 1 (ID1)
-* Name 2 (ID2)
+* Pham Thi Ngoc Mai (8109)
+* Doan Lien Huong   (8078)
+* Vu Khanh Huyen    (8074)
+* Le Nhu Chu Hiep   (8062)
+* Pham Phan Bach    (8022)
 
