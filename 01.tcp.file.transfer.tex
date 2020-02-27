@@ -1,0 +1,25 @@
+\documentclass{article}
+\title{TCP file transfer}
+\begin{document}
+\maketitle
+\section{Protocol}
+\subsection{Description}
+The application help you upload or download file from your server through terminal
+\subsection{Commend}
+The syntax will be:
+chat_client {Server IP} {Server Port} [Option] {client path to file} {server path to file}
+
+Option:
+\begin{itemize}
+\item \textbf{-u}: upload file to server
+\item \textbf{-d}: download file from server
+
+\subsection{Transfer string pattern}
+For sending size:\newline
+Path: {path to file receive}
+\n
+Content-length:{size of file}
+\n\n
+{Content data}
+\end{itemize}
+\end{document}
