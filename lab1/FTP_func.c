@@ -44,6 +44,7 @@ void parseMess(int fd, parameter* pm){
     for(int i = 0; i < 5; i++){
       if(strcmp(pmArray[i], type_data) == 0){
         push_data_2_struct(i, pm, data);
+        break;
       }
     }
   }
