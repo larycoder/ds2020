@@ -86,3 +86,17 @@ int string_2_int(char* data){
   }
   return value;
 }
+
+void initPm(parameter* pm){
+  pm->type = 0;
+  pm->client_path = NULL;
+  pm->server_path = NULL;
+  pm->request_type = 0;
+  pm->content_length = 0;
+}
+
+void clearPm(parameter* pm){
+  free(pm->client_path);
+  free(pm->server_path);
+  initPm(pm);
+}

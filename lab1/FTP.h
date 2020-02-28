@@ -24,5 +24,9 @@ static const char* pmArray[5] = {
                                   "Content-length"
                                 };
 
-// parsing function
+// parsing function 2 parameters
 void parseMess(int fd, parameter* pm);
+
+// function to handle parameter
+void initPm(parameter* pm);
+void clearPm(parameter* pm);
