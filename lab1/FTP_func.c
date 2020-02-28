@@ -97,7 +97,9 @@ void initPm(parameter* pm){
 }
 
 void clearPm(parameter* pm){
-  free(pm->client_path);
-  free(pm->server_path);
+  if(pm->client_path != NULL) 
+    free(pm->client_path);
+  if(pm->client_path != NULL) 
+    free(pm->server_path);
   initPm(pm);
 }
