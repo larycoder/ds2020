@@ -5,6 +5,10 @@ int main() {
     struct sockaddr_in ad;
     char s[100];
     socklen_t ad_length = sizeof(ad);
+    parameter pm;
+
+    // init parameter of protocol
+    initPm(&pm);
 
     // create the socket
     ss = socket(AF_INET, SOCK_STREAM, 0);
@@ -29,7 +33,9 @@ int main() {
             printf("client connected\n");
             while (1) {
                 // it's client turn to chat, I wait and read message from client
-                read(cli, s, sizeof(s));
+                clearPm(&pm);
+                parseMess(cli, &pm);
+                read(cli, s, pm.content_length);
                 printf("client says: %s\n",s);
 
                 // now it's my (server) turn
