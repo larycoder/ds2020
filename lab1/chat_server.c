@@ -36,7 +36,7 @@ int main() {
                 clearPm(&pm);
                 parseMess(cli, &pm);
                 read(cli, s, pm.content_length);
-                // printf("client says: %s\n",s);
+                printf("client says: %s\n",s);
 
                 // now it's my (server) turn
                 printf("server>", s);
