@@ -30,3 +30,7 @@ void parseMess(int fd, parameter* pm);
 // function to handle parameter
 void initPm(parameter* pm);
 void clearPm(parameter* pm);
+
+// function to generate head of mess
+int length_head(parameter* pm);
+void gen_head_mess(parameter* pm, char* buff, int sz);

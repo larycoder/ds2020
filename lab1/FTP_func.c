@@ -103,3 +103,15 @@ void clearPm(parameter* pm){
     free(pm->server_path);
   initPm(pm);
 }
+
+int length_head(parameter* pm){
+  char head[5000];
+  bzero(head, sizeof(head));
+  snprintf(head, 5000, "Type:%d\nClient-path:%s\nServer-path:%s\nRequest-type:%d\nContent-length:%d\n\n", pm->type, pm->client_path, pm->server_path, pm->request_type, pm->content_length);
+  return strlen(head) + 1;
+}
+
+void gen_head_mess(parameter* pm, char* buff, int sz){
+  bzero(buff,sz);
+  snprintf(buff, 5000, "Type:%d\nClient-path:%s\nServer-path:%s\nRequest-type:%d\nContent-length:%d\n\n", pm->type, pm->client_path, pm->server_path, pm->request_type, pm->content_length);
+}
