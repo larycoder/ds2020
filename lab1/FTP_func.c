@@ -115,3 +115,15 @@ void gen_head_mess(parameter* pm, char* buff, int sz){
   bzero(buff,sz);
   snprintf(buff, 5000, "Type:%d\nClient-path:%s\nServer-path:%s\nRequest-type:%d\nContent-length:%d\n\n", pm->type, pm->client_path, pm->server_path, pm->request_type, pm->content_length);
 }
+
+void gen_pm(parameter* pm, char* cp, char* sp, int request, int content){
+  char* client = (char*) malloc (strlen(cp) + 1);
+  strcpy(client, cp);
+  char* server = (char*) malloc (strlen(sp) + 1);
+  strcpy(server, sp);
+  pm->type = 0;
+  pm->client_path = client;
+  pm->server_path = server;
+  pm->request_type = request;
+  pm->content_length = content;
+}

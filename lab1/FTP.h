@@ -34,3 +34,6 @@ void clearPm(parameter* pm);
 // function to generate head of mess
 int length_head(parameter* pm);
 void gen_head_mess(parameter* pm, char* buff, int sz);
+
+// function to generate head parameter from argument
+void gen_pm(parameter* pm, char* cp, char* sp, int request, int content);
