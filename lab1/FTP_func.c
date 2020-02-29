@@ -9,11 +9,12 @@ void parseMess(int fd, parameter* pm){
   char data[1000];
 
   char c;
-  int index = 0;
+  int index;
   while(1){
     // clear buffer
     bzero(type_data, sizeof(type_data));
     bzero(data, sizeof(data));
+    index = 0;
 
     // read data
     read(fd, &c, sizeof(c));
