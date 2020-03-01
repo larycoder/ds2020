@@ -37,3 +37,11 @@ void gen_head_mess(parameter* pm, char* buff, int sz);
 
 // function to generate head parameter from argument
 void gen_pm(parameter* pm, int type, char* cp, char* sp, int request, int content);
+
+// function to send message
+void send_data(int fd, parameter* pm, char* content);
+
+// function to handle file
+FILE* open_server_file(parameter* pm);
+FILE* open_client_file(parameter* pm);
+int file_size(FILE* fpt);

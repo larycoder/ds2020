@@ -128,3 +128,46 @@ void gen_pm(parameter* pm, int type, char* cp, char* sp, int request, int conten
   pm->request_type = request;
   pm->content_length = content;
 }
+
+void send_data(int fd, parameter* pm, char* content){
+  // gen sending string
+  char string[length_head(pm) + strlen(content)];
+  gen_head_mess(pm, string, sizeof(string));
+  strcat(string, content);
+
+  // send message
+  write(fd, string, strlen(string) + 1);
+}
+
+FILE* open_server_file(parameter* pm){
+  switch(pm->request_type){
+    case 0:
+      // request upload file
+      return fopen(pm->server_path, "wb");
+    case 1:
+      // request download file
+      return fopen(pm->server_path, "rb");
+    default:
+      return NULL;
+  }
+}
+
+FILE* open_client_file(parameter* pm){
+  switch(pm->request_type){
+    case 0:
+      // request upload file
+      return fopen(pm->client_path, "rb");
+    case 1:
+      // request download file
+      return fopen(pm->client_path, "wb");
+    default:
+      return NULL;
+  }
+}
+
+int file_size(FILE* fpt){
+  fseek(fpt, 0, SEEK_END);
+  int size = ftell(fpt);
+  fseek(fpt, 0, SEEK_SET);
+  return size;
+}
