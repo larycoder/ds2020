@@ -7,7 +7,7 @@
 The application help you upload or download file from your server through terminal
 \subsection{Commend}
 The syntax will be:
-chat_client {Server IP} {Server Port} [Option] {client path to file} {server path to file}
+chat_client {Server IP} [Option] {client path to file} {server path to file}
 
 Option:
 \begin{itemize}
@@ -30,4 +30,7 @@ Content-length:{size of file}
 \n\n
 {Content data}
 -------------------------------------------------
+\section{Implementation}
+We create a struct called "parameter" to keep header attribute of message the using
+this parameter to decide the job on each size. The detail can be readed in lab1/FTP.h
 \end{document}
