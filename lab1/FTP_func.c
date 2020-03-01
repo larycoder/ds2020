@@ -75,8 +75,7 @@ void push_data_2_struct(int p, parameter* pm, char* data){
 }
 
 char* init_dynamic_string(char* data){
-  int length = strlen(data);
-  char* data_string = (char*) malloc (sizeof(length) + 1);
+  char* data_string = (char*) malloc (strlen(data) + 1);
   strcpy(data_string, data);
   return data_string;
 }

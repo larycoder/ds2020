@@ -31,18 +31,47 @@ int main() {
         if (pid == 0) {
             // I'm the son, I'll serve this client
             printf("client connected\n");
-            while (1) {
-                // it's client turn to chat, I wait and read message from client
-                clearPm(&pm);
-                parseMess(cli, &pm);
-                read(cli, s, pm.content_length);
-                printf("client says: %s\n",s);
 
-                // now it's my (server) turn
-                printf("server>", s);
-                scanf("%s", s);
-                write(cli, s, strlen(s) + 1);
+            // I wait and read message from client
+            clearPm(&pm);
+            parseMess(cli, &pm);
+
+            // open file  from server side
+            FILE* fpt = open_server_file(&pm);
+            if(fpt == NULL){
+                char error[] = "Can not open file on server";
+                pm.type = 1;
+                pm.content_length = strlen(error) + 1;
+                send_data(cli, &pm, error);
+                close(cli);
+                return 0;
             }
+
+            // process request from client
+            if(pm.request_type == 0){ // request is upload
+                // store data to buffer
+                char buff[pm.content_length];
+                read(cli, buff, sizeof(buff));
+                // push buffer to file
+                fwrite(buff, pm.content_length, 1, fpt);
+                fclose(fpt);
+                // send confirm message
+                char confirm[] = "Successful";
+                pm.type = 1;
+                pm.content_length = strlen(confirm) + 1;
+                send_data(cli, &pm, confirm);
+            }
+            else{ // request is download
+                // store data to buffer
+                char buff[file_size(fpt)];
+                fread(buff, sizeof(buff), 1, fpt);
+                fclose(fpt);
+                // push buffer to socket
+                pm.type = 1;
+                pm.content_length = sizeof(buff);
+                send_data(cli, &pm, buff);
+            }
+            close(cli);
             return 0;
         }
         else {
