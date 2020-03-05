@@ -42,7 +42,7 @@ int main() {
                 char error[] = "Can not open file on server";
                 pm.type = 1;
                 pm.content_length = strlen(error) + 1;
-                send_data(cli, &pm, error);
+                send_data(cli, &pm, error, sizeof(error));
                 close(cli);
                 return 0;
             }
@@ -51,25 +51,28 @@ int main() {
             if(pm.request_type == 0){ // request is upload
                 // store data to buffer
                 char buff[pm.content_length];
-                read(cli, buff, sizeof(buff));
+                read_content(cli, &pm, buff);
+
                 // push buffer to file
                 fwrite(buff, pm.content_length, 1, fpt);
                 fclose(fpt);
+
                 // send confirm message
                 char confirm[] = "Successful";
                 pm.type = 1;
                 pm.content_length = strlen(confirm) + 1;
-                send_data(cli, &pm, confirm);
+                send_data(cli, &pm, confirm, sizeof(confirm));
             }
             else{ // request is download
                 // store data to buffer
                 char buff[file_size(fpt)];
                 fread(buff, sizeof(buff), 1, fpt);
                 fclose(fpt);
+                
                 // push buffer to socket
                 pm.type = 1;
                 pm.content_length = sizeof(buff);
-                send_data(cli, &pm, buff);
+                send_data(cli, &pm, buff, sizeof(buff));
             }
             close(cli);
             return 0;

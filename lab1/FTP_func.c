@@ -128,14 +128,56 @@ void gen_pm(parameter* pm, int type, char* cp, char* sp, int request, int conten
   pm->content_length = content;
 }
 
-void send_data(int fd, parameter* pm, char* content){
+void send_data(int fd, parameter* pm, char* content, int content_size){
   // gen sending string
-  char string[length_head(pm) + strlen(content)];
+  char string[length_head(pm)];
   gen_head_mess(pm, string, sizeof(string));
-  strcat(string, content);
 
-  // send message
-  write(fd, string, strlen(string) + 1);
+  // send header
+  write(fd, string, strlen(string));
+
+  // wait response
+  char c;
+  read(fd, &c, 1);
+  
+  // send content
+  char buff[100];
+  int index = 0;
+
+  // split content to 100 bite epoch then sending
+  while(index < content_size){
+    int i = 0;
+    while(i < 100 && index < content_size){
+      buff[i++] = content[index++];
+    }
+    // send data
+    write(fd, buff, i);
+    read(fd, &c, 1);
+  }
+}
+
+void read_content(int fd, parameter* pm, char* ct_buff){
+  int index = 0, length = 0;
+  char buff[100];
+
+  // send signal to begin receive content
+  write(fd, "1", 1);
+
+  // read splitted content
+  while(1){
+    // begin read from socket when has content sending
+    if(pm->content_length > 0){
+      length = read(fd, buff, 100); // read 100 bite each time
+    }
+    // store 100 bite to buffer
+    for(int j = 0; j < length; j++){
+      ct_buff[index++] = buff[j];
+    }
+    // send confirm back
+    write(fd, "1", 1);
+    // break after read full
+    if (!(index < pm->content_length)) break;
+  }
 }
 
 FILE* open_server_file(parameter* pm){

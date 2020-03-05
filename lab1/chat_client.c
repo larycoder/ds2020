@@ -58,19 +58,19 @@ int main(int argc, char* argv[]) {
 
         // push buffer to socket
         pm.content_length = sizeof(buff);
-        send_data(serv, &pm, buff);
+        send_data(serv, &pm, buff, sizeof(buff));
 
         // server response
         clearPm(&pm);
         parseMess(serv, &pm);
-        read(serv, s, pm.content_length);
+        read_content(serv, &pm, s);
         printf("server says: %s\n", s);
     }
     else if(pm.request_type == 1){ // request download file
         // sending download request
         char w[] = "\0";
         pm.content_length = 1;
-        send_data(serv, &pm, w);
+        send_data(serv, &pm, w, sizeof(w));
 
         // server response
         clearPm(&pm);
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
 
         // store data to buffer
         char buff[pm.content_length];
-        read(serv, buff, sizeof(buff));
+        read_content(serv, &pm, buff);
 
         // push buffer to file
         fwrite(buff, pm.content_length, 1, fpt);
