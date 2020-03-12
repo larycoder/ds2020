@@ -27,10 +27,12 @@ void uploadFile(char *host, char* dest, char*src) {
 	/* Parameter prepare */
 	argv.file_name = dest;
 	argv.type = 'u';
-	data.fd = *(openfile_1(&argv, clnt));
-	if(data.fd == (int *)NULL){
+	int *dest_file = openfile_1(&argv, clnt);
+	if(dest_file == (int *)NULL){
 		clnt_perror(clnt, "call failed");
+		exit(1);
 	}
+	data.fd = *dest_file;
 
 	/* Open file */
 	src_file = open(src, O_RDONLY);
@@ -38,7 +40,7 @@ void uploadFile(char *host, char* dest, char*src) {
 	/* transfer file until EOF */
 	do{
 		read(src_file, &(data.content), 1);
-		appendcontent_1(&data, clnt)
+		appendcontent_1(&data, clnt);
 	} while(data.content != EOF);
 
 	/* Close file */
@@ -73,7 +75,7 @@ void downloadFile(char* host, char* dest, char* src){
 	}
 
 	/* Open file */
-	dest_file = open(dest, O_WRONLY | O_CREAT);
+	dest_file = open(dest, O_RDWR | O_CREAT);
 
 	/* transfer file until EOF */
 	do{
