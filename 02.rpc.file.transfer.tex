@@ -3,5 +3,78 @@
 \author{Group x}
 \begin{document}
 \maketitle
+\section{Brief-description}
+I using rpcgen to build framework for FTP:
+And you can see the Interface define language (IDL) in "ftp.x" file \newline
+The client stub function in "ftp_clnt.c" file \newline
+The server stub function implemented in "ftp_server.c" file \newline
+Server service is designed by Sun Microsystems ONC RPC in "ftp_svc.c" and Client system I implemented in "ftp_client.c" \newline
+Makefile help you build all thing faster and backup of its good if you lost makefile \newline
+
+\section{Design}
+RPC service design depending on rpcgen pre-compiler framework designed by Sun Microsystems ONC RPC. \newline
+My organize system will be: \newline
+
+
+
+                +----------------+                               +----------------+
+                |                |                               |                |
+                |     Client     |                               |   Server       |
+                |                |                               |                |
+                +----------------+                               +----------------+
+                        |                                                |
+                        v                                                v
+                +-----------------+                              +----------------+
+                |                 |          udp                 |                |
+                | Connect to host +----------------------------->+   Registation  |
+                |                 |                              |                |
+                +-----------------+                              +----------------+
+           +-----------------------------------------------------------------------------------+
+           |            |                                                                      |
+           |            v                                                                      |
+           |    +-----------------+                              +-----------------+           |
+           |    |   Open local    +----------------------------->+     Open fd     |           |
+           |    |      file       |                              +-----------------+           |
+           |    +-----------------+                                            |               |
+           |                                                                   |               |
+           |           +--------------------------------------------------+    |               |
+           |           |   +------------+              +------------+     |    |               |
+           |           |   | Read file  +------------->+ Write file |     |    |               |
+           |           |   +------------+              +------------+     |    |               |
+           |        +--+        ^                             |           +<---+               |
+           |        |  |        |                             |           |                    |
+           |    EOF |  |Loop    +-----------------------------+           |                    |
+           |        |  +--------------------------------------------------+                    |
+           |        v                                                                          |
+           |     +----------------+                               +---------------+            |
+           |     |Close local file+------------------------------>+Close serv file|            |
+           |     +----------------+                               +---------------+            |
+           |                                                                                   |
+           |                                                                                   |
+           |RPC serialize                                                                      |
+           +-----------------------------------------------------------------------------------+
+
+\section{syntax for client side}
+RUN: ./ftp_client {host id} [-d/-u] {dest path} {src path} \newline
+
+host id : ip address of server
+dest path: destination path + name of file
+src path: source path + name of file
+
+OPTION:
+-d : download file from source file to destination file
+-u : upload file from source file to destination file
+
+\section{Step to run server side}
+\begin{itemize}
+	\item Run portmap service (rpcbind for linux base)
+	\item Run .\ftp_server
+\end{itemize}
+
+\section{Build from source}
+RUN: make -f Makefile.ftp
+
+\section{Who do wut ?}
+Very interesting thing but unfortunately, this is trade secrect
 
 \end{document}
