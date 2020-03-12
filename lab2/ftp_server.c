@@ -19,6 +19,7 @@ openfile_1_svc(file *argp, struct svc_req *rqstp)
 	 */
 	switch(argp->type){
 		case 'u':
+			result = open(argp->file_name, O_WRONLY | O_CREAT);
 			break;
 		case 'd':
 			result = open(argp->file_name, O_RDONLY);
@@ -39,6 +40,7 @@ appendcontent_1_svc(file_content *argp, struct svc_req *rqstp)
 	/*
 	 * insert server code here
 	 */
+	result = write(argp->fd, &(argp->content), 1);
 
 	return &result;
 }
@@ -51,7 +53,6 @@ readcontent_1_svc(int *argp, struct svc_req *rqstp)
 	/*
 	 * insert server code here
 	 */
-	// printf("fd read is %d\n", *argp);
 	read(*argp, &result, 1);
 
 	return &result;
@@ -65,6 +66,7 @@ closefile_1_svc(int *argp, struct svc_req *rqstp)
 	/*
 	 * insert server code here
 	 */
+	result = close(*argp);
 
 	return &result;
 }
