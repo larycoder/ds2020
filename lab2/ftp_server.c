@@ -19,7 +19,7 @@ openfile_1_svc(file *argp, struct svc_req *rqstp)
 	 */
 	switch(argp->type){
 		case 'u':
-			result = open(argp->file_name, O_WRONLY | O_CREAT, 00644);
+			result = open(argp->file_name, O_RDWR | O_CREAT | O_TRUNC, 00644);
 			break;
 		case 'd':
 			result = open(argp->file_name, O_RDONLY);

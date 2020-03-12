@@ -38,10 +38,9 @@ void uploadFile(char *host, char* dest, char*src) {
 	src_file = open(src, O_RDONLY);
 
 	/* transfer file until EOF */
-	do{
-		read(src_file, &(data.content), 1);
+	while(read(src_file, &(data.content), 1) != 0){
 		appendcontent_1(&data, clnt);
-	} while(data.content != EOF);
+	}
 
 	/* Close file */
 	close(src_file);
@@ -75,7 +74,7 @@ void downloadFile(char* host, char* dest, char* src){
 	}
 
 	/* Open file */
-	dest_file = open(dest, O_RDWR | O_CREAT, 00644);
+	dest_file = open(dest, O_RDWR | O_CREAT | O_TRUNC, 00644);
 
 	/* transfer file until EOF */
 	while(1){
