@@ -39,15 +39,15 @@ appendcontent_1(file_content *argp, CLIENT *clnt)
 	return (&clnt_res);
 }
 
-char *
+return_content *
 readcontent_1(int *argp, CLIENT *clnt)
 {
-	static char clnt_res;
+	static return_content clnt_res;
 
 	memset((char *)&clnt_res, 0, sizeof(clnt_res));
 	if (clnt_call (clnt, readContent,
 		(xdrproc_t) xdr_int, (caddr_t) argp,
-		(xdrproc_t) xdr_char, (caddr_t) &clnt_res,
+		(xdrproc_t) xdr_return_content, (caddr_t) &clnt_res,
 		TIMEOUT) != RPC_SUCCESS) {
 		return (NULL);
 	}

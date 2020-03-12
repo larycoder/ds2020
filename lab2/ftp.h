@@ -26,6 +26,12 @@ struct file_content {
 };
 typedef struct file_content file_content;
 
+struct return_content {
+	char content;
+	int check;
+};
+typedef struct return_content return_content;
+
 #define ftp_program 0x23451111
 #define ftp_vers 1
 
@@ -37,8 +43,8 @@ extern  int * openfile_1_svc(file *, struct svc_req *);
 extern  int * appendcontent_1(file_content *, CLIENT *);
 extern  int * appendcontent_1_svc(file_content *, struct svc_req *);
 #define readContent 3
-extern  char * readcontent_1(int *, CLIENT *);
-extern  char * readcontent_1_svc(int *, struct svc_req *);
+extern  return_content * readcontent_1(int *, CLIENT *);
+extern  return_content * readcontent_1_svc(int *, struct svc_req *);
 #define closeFile 4
 extern  int * closefile_1(int *, CLIENT *);
 extern  int * closefile_1_svc(int *, struct svc_req *);
@@ -52,8 +58,8 @@ extern  int * openfile_1_svc();
 extern  int * appendcontent_1();
 extern  int * appendcontent_1_svc();
 #define readContent 3
-extern  char * readcontent_1();
-extern  char * readcontent_1_svc();
+extern  return_content * readcontent_1();
+extern  return_content * readcontent_1_svc();
 #define closeFile 4
 extern  int * closefile_1();
 extern  int * closefile_1_svc();
@@ -65,10 +71,12 @@ extern int ftp_program_1_freeresult ();
 #if defined(__STDC__) || defined(__cplusplus)
 extern  bool_t xdr_file (XDR *, file*);
 extern  bool_t xdr_file_content (XDR *, file_content*);
+extern  bool_t xdr_return_content (XDR *, return_content*);
 
 #else /* K&R C */
 extern bool_t xdr_file ();
 extern bool_t xdr_file_content ();
+extern bool_t xdr_return_content ();
 
 #endif /* K&R C */
 

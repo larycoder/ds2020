@@ -45,16 +45,15 @@ appendcontent_1_svc(file_content *argp, struct svc_req *rqstp)
 	return &result;
 }
 
-char *
+return_content *
 readcontent_1_svc(int *argp, struct svc_req *rqstp)
 {
-	static char  result;
+	static return_content result;
 
 	/*
 	 * insert server code here
 	 */
-	int check = read(*argp, &result, 1);
-	if(check == 0) result = EOF;
+	result.check = read(*argp, &(result.content), 1);
 
 	return &result;
 }

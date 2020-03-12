@@ -55,7 +55,7 @@ void downloadFile(char* host, char* dest, char* src){
 	CLIENT *clnt;
 	file argv;
 	int *src_file, dest_file;
-	char *content;
+	return_content *content;
 
 #ifndef DEBUG
 	clnt = clnt_create(host, ftp_program, ftp_vers, "udp");
@@ -79,8 +79,8 @@ void downloadFile(char* host, char* dest, char* src){
 	/* transfer file until EOF */
 	while(1){
 		content = readcontent_1(src_file, clnt);
-		if(*content == EOF) break;
-		write(dest_file, content, 1);
+		if(content->check == 0) break;
+		write(dest_file, &(content->content), 1);
 	}
 
 	/* close file */

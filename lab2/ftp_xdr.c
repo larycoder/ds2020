@@ -28,3 +28,15 @@ xdr_file_content (XDR *xdrs, file_content *objp)
 		 return FALSE;
 	return TRUE;
 }
+
+bool_t
+xdr_return_content (XDR *xdrs, return_content *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_char (xdrs, &objp->content))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->check))
+		 return FALSE;
+	return TRUE;
+}

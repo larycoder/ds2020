@@ -48,7 +48,7 @@ ftp_program_1(struct svc_req *rqstp, register SVCXPRT *transp)
 
 	case readContent:
 		_xdr_argument = (xdrproc_t) xdr_int;
-		_xdr_result = (xdrproc_t) xdr_char;
+		_xdr_result = (xdrproc_t) xdr_return_content;
 		local = (char *(*)(char *, struct svc_req *)) readcontent_1_svc;
 		break;
 
