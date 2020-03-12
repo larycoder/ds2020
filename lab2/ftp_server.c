@@ -19,7 +19,7 @@ openfile_1_svc(file *argp, struct svc_req *rqstp)
 	 */
 	switch(argp->type){
 		case 'u':
-			result = open(argp->file_name, O_WRONLY | O_CREAT);
+			result = open(argp->file_name, O_WRONLY | O_CREAT, 00644);
 			break;
 		case 'd':
 			result = open(argp->file_name, O_RDONLY);
@@ -53,7 +53,8 @@ readcontent_1_svc(int *argp, struct svc_req *rqstp)
 	/*
 	 * insert server code here
 	 */
-	read(*argp, &result, 1);
+	int check = read(*argp, &result, 1);
+	if(check == 0) result = EOF;
 
 	return &result;
 }

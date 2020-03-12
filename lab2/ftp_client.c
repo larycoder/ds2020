@@ -75,13 +75,14 @@ void downloadFile(char* host, char* dest, char* src){
 	}
 
 	/* Open file */
-	dest_file = open(dest, O_RDWR | O_CREAT);
+	dest_file = open(dest, O_RDWR | O_CREAT, 00644);
 
 	/* transfer file until EOF */
-	do{
+	while(1){
 		content = readcontent_1(src_file, clnt);
+		if(*content == EOF) break;
 		write(dest_file, content, 1);
-	}while(*content != EOF);
+	}
 
 	/* close file */
 	close(dest_file);
