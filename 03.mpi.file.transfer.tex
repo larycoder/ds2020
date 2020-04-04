@@ -29,5 +29,80 @@ Conclusion, 2 main point to optimize file transfer process on distributed system
 Applying MPI in file transfer in distributed system is important.
 
 \section{Methodology}
+\subsection{Tool}
+I choose Openmpi and its utility for designing my system - its popular, has wide support community and already exit in my computer.
+\begin{itemize}
+\item mpicc - used to compile c code include mpi syntax.
+\item mpirun - jobs manager used to execute program - require the execute program has same path.
+\item hostfile - configuration file for running process on a cluster.
+\item NFS-server - used to setup sharing folder as the unique environment for holding configuration file and extra.
+\end{itemize}
+\textbf{Note:} openmpi run on multiple machine throw third party service, and in this labwork, it connect from host machine to
+slave machine throw ssh connection. So setting ssh connection between each machines in cluster without password is required.
+
+\subsection{MPI service design}
++-------------------------------------------------+
+|                                                 |
+|NFS Sharing Folder                               |
+|                                                 |
+|  +---------------+             +-------------+  |
+|  |Pro in M.A     |             |Pro in M.B   |  |
+|  |               |             |             |  |
+|  |               |             |             |  |
+|  |  +--------+   |             | +--------+  |  |
+|  |  |        |   |             | |        |  |  |
+|  |  |Machine |   |   SSH       | |Machine |  |  |
+|  |  |A       |   +------------>+ |B       |  |  |
+|  |  |File    |   | Connection  | |File    |  |  |
+|  |  |Open    |   +<------------+ |Open    |  |  |
+|  |  |        |   |             | |        |  |  |
+|  |  |        |   |             | |        |  |  |
+|  |  +--------+   |             | +--------+  |  |
+|  |               |             |             |  |
+|  |               |             |             |  |
+|  +---------------+             +-------------+  |
+|                                                 |
++-------------------------------------------------+
+
+\subsection{System design}
+         +----------+                                       +----------+
+         |          |                                       |          |
+         | Open File|                                       | Open File|
+         +----+-----+                                       +--+-------+
+              |                                                |
++---------------------------------+                            |
+| Loop:       |                   |                  +---------------------------------+
+|             v                   |                  |         v                       |
+|  +----------++    +----------+  |     Data         | +-------+--+   +------------+   |
+|  | Read      +----> Send     +---------------------> | Recv     |   |  Write     |   |
+|  |           |    |          |  |                  | |          +-->+            |   |
+|  +-----^-----+    +----+-----+  |                  | +----+-----+   +-----+------+   |
+|        |               |        |                  |      ^               |          |
+|        |               |        |                  | +----+-----+         |          |
+|        |          +----v-----+  |    SIGNAL        | |Confirm   |         |          |
+|        |          | Confirm  | <---------------------+OR        |         |          |
+|        +----------+          |  |                  | |Error     +<--------+          |
+|                   +----------+  |                  | +----+-----+                    |
++---------------------------------+                  |      |                 Loop     |
+                         |                           +-+-------------------------------+
+                         v                             ^    |
+                    +----+-----+                       |    |
+                    | Send end +-----------------------+    |
+                    | SIGNAL   |                            |
+                    +----+-----+                            |
+                         |                                  v
+                         v                             +----+-----+
+                    +----+-----+                       | Stop     |
+                    | Stop     |                       |          |
+                    |          |                       +----------+
+                    +----------+
+
+\subsection{Implementation}
+All code sit in lab3/mpi_ftp.c 
+and 
+compiling file in makefile
+and
+Config file when running 'mpirun' in my_hostfile
+
 
 \end{document}
