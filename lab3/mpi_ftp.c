@@ -14,15 +14,31 @@ void fileSend(FILE *fp, char *path, char *buff, int des_mpi, int tag_mpi){
   
   // trasnfer file
   int n_byte; // number of reading file
-  while((n_byte = fread(&(buff[1]), 1, MAX - 1, fp)) != 0){
-    buff[0] = 1;
-    MPI_Send(buff, n_byte + 1, MPI_CHAR, des_mpi, tag_mpi, MPI_COMM_WORLD);
-    bzero(buff, MAX);
+  if(fp != NULL){
+    while((n_byte = fread(&(buff[1]), 1, MAX - 1, fp)) != 0){
+      buff[0] = 1;
+      MPI_Send(buff, n_byte + 1, MPI_CHAR, des_mpi, tag_mpi, MPI_COMM_WORLD);
+
+      // check confirm response
+      MPI_Recv(buff, 1, MPI_CHAR, des_mpi, tag_mpi, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      if(buff[0] != 1){
+        printf("Process %d response error, we stop file transfer in middle\n", des_mpi);
+        break;
+      }
+      
+      // clean buffer
+      bzero(buff, MAX);
+    }
   }
+
   // send end transfer signal
   buff[0] = 0;
   MPI_Send(buff, 1, MPI_CHAR, des_mpi, tag_mpi, MPI_COMM_WORLD);
-  fclose(fp);
+
+  // close file
+  if(fp != NULL){
+    fclose(fp);
+  }
 }
 
 void fileRecv(FILE *fp, char *path, char *buff, int src_mpi, int tag_mpi){
@@ -44,12 +60,27 @@ void fileRecv(FILE *fp, char *path, char *buff, int src_mpi, int tag_mpi){
     
     // close process if end signal sent
     if(buff[0] == 0){
-      fclose(fp);
+      // close file
+      if(fp != NULL){
+        fclose(fp);
+      }
       break;
     }
-    
-    // push data to file
-    fwrite(&(buff[1]), 1, MAX - 1, fp);
+
+    // check for file open
+    if(fp == NULL){
+      // send error response to partner
+      buff[0] = 0;
+      MPI_Send(buff, 1, MPI_CHAR, src_mpi, tag_mpi, MPI_COMM_WORLD);
+    }
+    else{
+      // push data to file
+      fwrite(&(buff[1]), 1, MAX - 1, fp);
+
+      // send confirm response to partner
+      buff[0] = 1;
+      MPI_Send(buff, 1, MPI_CHAR, src_mpi, tag_mpi, MPI_COMM_WORLD);
+    }
   }
   
 }
@@ -80,6 +111,8 @@ int main(int argc, char *argv[]){
     else{
       // do notthing
     }
+
+    printf("Process %d is end\n", world_rank);
   }
   else if(world_rank == 1){
     // this is server side
@@ -94,6 +127,8 @@ int main(int argc, char *argv[]){
     else{
       // do notthing
     }
+    
+    printf("Process %d is end\n", world_rank);
   }
 
   // Finalize mpi
