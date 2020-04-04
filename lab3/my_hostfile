@@ -8,4 +8,5 @@
 # 127.0.0.1 slots=4 max-slots=4
  
 # The following node is a multiple-processor machine:
-127.0.0.1 slots=10
+127.0.0.1 slots=1
+mpi_slave@192.168.0.105 slots=1
