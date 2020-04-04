@@ -3,5 +3,31 @@
 \author{Group x}
 \begin{document}
 \maketitle
+\section{MPI Introduction}
+MPI stands for Message Passing Interface - is a standardized and portable message-passing standard designed.
+Typically, it allow developer design a parallel system which can transfer data to each other.
+
+It sound similar to "fork" or "pthread" technique, but only when running on single machine. But the story is new when the parallel processes work in the distributed system like a cluster where the multiple of machines work together.
+In this case, the mpi-driven program can be designed to spread parallel processes onto multiple machines easily and allow those parallel processes share data to each other.
+
+For that reason, MPI used a lot to design parallel-driven program on distributed system.
+
+\section{MPI and File Transfer}
+A process to transfer begin when 1 side read amount of byte from source (we consider it is 1M) then send these data to destination.file.
+There are 2 task cause slow down is when data read from disk and writen to disk. Normally, there processes work serialize. But it
+can be optimized by convert this serialize process to parallel. And the key in here is a buffer. Basically, temporary storing
+data to buffer before that data can be stored in dest is a step in all file transfer program. Then lets imagine a bit, while the disk try to fetch out data to fill up buffer before this buffer can be sent to another disk to save (we consider this is a distributed system has multiple disks). It will like 2 worker, worker A fetch data and fill up buffer, worker B get data from
+buffer then store it to disk. During worker A do his job, worker B wait and vice versa. That cause delay, both 2 worker should work
+concurrently. But they cannot because there are only 1 buffer, if A use buffer, B do not. And that why I say buffer is key point
+to optimize this process. If we have more than 1 buffer then both 2 worker can work at same time.
+And the parallel process make this come true, which mean 2 process parallel will have 2 buffer of their own. So, if 1 process do task read data, another can write data. That is idea, you improve job by giving more tool to worker. Serial program has only 1 
+buffer used at once time but parallel program has 2. So parallel driven designed program is solution for optimizing file transfer 
+task. But this is incomplete solution when data can not transfer between 2 buffers. If 2 processes run on 2 difference machines
+then how can data jump from buffer of worker A to buffer of worker B. Simple idea, MPI design has already solve it. Actually, it
+is made to solve this problem.
+Conclusion, 2 main point to optimize file transfer process on distributed system have already exit in definition of MPI. Therefore,
+Applying MPI in file transfer in distributed system is important.
+
+\section{Methodology}
 
 \end{document}
