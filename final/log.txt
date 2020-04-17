@@ -1,0 +1,231 @@
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+connect method length: 377
+connect data: GET http://detectportal.firefox.com/success.txt HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:74.0) Gecko/20100101 Firefox/74.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+
+gX€Ó
+HEAD DNS: detectportal.firefox.com port: 80
+connection fail
+Socket successfully created..
+Socket successfully binded..
+Server listening..
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+server acccept the client...
+
+Close signal !
+server acccept failed...
