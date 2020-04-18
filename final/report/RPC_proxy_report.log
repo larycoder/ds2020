@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.3.11)  19 APR 2020 04:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Arch Linux) (preloaded format=pdflatex 2020.3.11)  19 APR 2020 05:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -284,11 +284,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 182--197
  []
 
 [5]
-Underfull \hbox (badness 10000) in paragraph at lines 209--221
+Underfull \hbox (badness 10000) in paragraph at lines 211--223
 
  []
 
-[6] [7] (./RPC_proxy_report.aux) ) 
+
+Underfull \hbox (badness 10000) in paragraph at lines 234--251
+
+ []
+
+[6]
+Underfull \hbox (badness 10000) in paragraph at lines 253--263
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 253--263
+
+ []
+
+[7] [8] (./RPC_proxy_report.aux) ) 
 Here is how much of TeX's memory you used:
  2002 strings out of 492167
  28398 string characters out of 6131558
@@ -304,10 +319,10 @@ re/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/f
 onts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/publ
 ic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on RPC_proxy_report.pdf (7 pages, 348635 bytes).
+Output written on RPC_proxy_report.pdf (8 pages, 352761 bytes).
 PDF statistics:
- 65 PDF objects out of 1000 (max. 8388607)
- 43 compressed objects within 1 object stream
+ 68 PDF objects out of 1000 (max. 8388607)
+ 45 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

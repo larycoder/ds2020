@@ -195,11 +195,13 @@ In this project, I use C program TCP socket system call of linux to open listeni
 port on the RPC client proxy and connect the RPC server proxy to the final website.
 And the TCP socket can be create with function
 \begin{verbatim}
+/* socket system call */
+
+int socket(int domain, int type, int protocol);
+
 /*
 * For more information - man(2)
 */
-
-int socket(int domain, int type, int protocol);
 \end{verbatim}
 This function will return file descriptor of the network socket.
 Then it can be consider as a file in linux system and can be
@@ -228,10 +230,51 @@ and child handle HTTP request.
 There are some worry about the memory space required if the whole server is
 forked for each process. But HTTP connection is very short with only 1 request
 with 1 response. So the overhead case is very rare.
-\subsection{fcntl.h lib}
-
+\subsection{fcntl.h}
+This another linux system call. It stand for file control - In this library,
+I use only function fcntl(). It perform some operation on open files. In other
+word, It can modify some properties of file descriptor. In this case is NONBLOCKING
+property.\\
+\\
+For normal case, when ever the process read to file descriptor,
+it is blocked and wait until there are data to read. It is not exception with
+network socket which is act as a normal file in the linux space. But when the
+proxy server begin run the tunnel mode. The data can flow from 2 direction. The
+client to the website and the website back to the client. So if the read function
+function is blocked when try to read data from client. But actually, the client
+is waiting for the reponse of the website. Then although the website return response.
+The proxy server is still be block in read client side. Then it will be dead block case.
+The same situation can happen when the server read the website first. Then solution is
+very simple, modify properties of file descriptor then push read/write into loop. Then
+when the proxy read the client, if it do not have data, it return -1 and jump to read 
+the website.
 \section{Evaluation}
 \subsection{Success}
+Up to this report time, the proxy system can handle both HTTP and HTTPS versions.
+It can tunnel for a small amount HTTP requests instantaneous. I can tunnel the
+www.google.com (HTTPS ver) homepage successful.\\
+\\
+With HTTP version, the main page of firefox homepage is transfer successful.\\
+\\
+The time performance is not fast as direct connection but if compare to another proxy
+browsec extension of firefox, it is same (Of course because I can verify 2 website test only).
+For the mechanism of parsing HTTP header in first step of the proxy protocol. The limitation
+for head length should smaller then 500 bytes.
 \subsection{Bug}
+\begin{itemize}
+\item RPC call time out is most bug of the project (I still not have time to find the reason)
+\item RPC can not encrypt parameter for RPC call. This bug come from wrong type define in IDL.
+In first time, I use string, but that type will end if reaching '\\0' value. Then I change to
+char array type. It work well after that but sometimes, the error still appear.
+\item Can not close connection to the server site. It is problem of my close connection mechanism.
+I find out it when writing this report on fcntl part.
+\end{itemize}
 \section{Conclusion}
+HTTP over RPC is a interesting topic but not popular in community. It can be unreality but give
+effort on researching it give me some hints about the distributed proxy system. Actually, this
+model can be implemented and deploy for a decade. But with me, that is new and worth the effort.
+Although I build the system only 1 night before presenting and 3 days for finishing this report,
+I think I gain a huge amount of knowledge about linux system call, socket, fcntl and feel fork 
+is a brilliant idea. There are several bug in the system, I will fix it and keep developing this
+project as a habit.
 \end{document}
