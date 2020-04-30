@@ -39,7 +39,7 @@ class lhwc{
 std::string lhwc::input_split(void){
   std::string line;
   std::getline(file, line); // read line of file
-  if(file.eof()) line = ""; // return empty string if reach EOF
+  if(file.eof()) line = "\n"; // return empty string if reach EOF
   return line;
 }
 std::vector<hash_map> lhwc::mapper(std::string midata){
@@ -79,15 +79,20 @@ int main(){
   lhwc word_count(input_c);
   
   std::string line;
-  while((line = word_count.input_split()) != ""){
+  while((line = word_count.input_split()) != "\n"){
+    // parallel task can perform in here
+    //-----------------------------------------------------------
     std::vector<hash_map> line_raw_data = word_count.mapper(line);
     for(int i = 0; i < line_raw_data.size(); i++){
       data.push_back(line_raw_data[i]);
     }
+    //-----------------------------------------------------------
   }
 
   word_count.sorting(data);
 
+  // parallel task can perform in here
+  //-----------------------------------------------------------
   std::vector<hash_map> ridata;
   for(int i = 0; i < data.size(); i++){
     if(ridata.size() == 0 || data[i].key == ridata[0].key){
@@ -104,6 +109,8 @@ int main(){
     hash_map result = word_count.reducer(ridata);
     std::cout << result.key << "\t" << result.value << std::endl;
   }
+  //-----------------------------------------------------------
+
 
   word_count.close_file();
   return 0;
