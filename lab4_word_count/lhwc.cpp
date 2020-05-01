@@ -6,6 +6,9 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 struct hash_map{
   std::string key;
@@ -66,7 +69,8 @@ void lhwc::sorting(std::vector<hash_map> &idata){
 // -----------------------------------------------------
 // In this implementation:
 // because I have only 1 computer, I use fork to
-// generate concurrency in map reduce model
+// generate concurrency in map reduce model and pipe
+// used as the IPC between slave and master
 //------------------------------------------------------
 int main(){
   std::cout << "Type path to file: ";
@@ -75,43 +79,103 @@ int main(){
   char input_c[input.size() + 1];
   strcpy(input_c, input.c_str());
 
+  // prepare pipe
+  int pfd[2];
+  pipe(pfd);
+
+  pid_t wpid;
+  int status;
+
   std::vector<hash_map> data;
   lhwc word_count(input_c);
-  
+
   std::string line;
-  while((line = word_count.input_split()) != "\n"){
-    // parallel task can perform in here
-    //-----------------------------------------------------------
-    std::vector<hash_map> line_raw_data = word_count.mapper(line);
-    for(int i = 0; i < line_raw_data.size(); i++){
-      data.push_back(line_raw_data[i]);
+  std::vector<hash_map> line_raw_data;
+  int num_map = 0;
+
+  while((line = word_count.input_split()) != "\n"){ // mapper creator
+    num_map++;
+    int pid = fork();
+    if(pid == 0){ // child process act as mapper
+      line_raw_data = word_count.mapper(line);
+      for(int i = 0; i < line_raw_data.size(); i++){
+        int value = line_raw_data[i].value;
+        int key_length = line_raw_data[i].key.size() + 1;
+        char buff[ 4 + 4 + key_length];
+        memcpy(&buff[0], &value, 4);
+        memcpy(&buff[4], &key_length, 4);
+        memcpy(&buff[8], line_raw_data[i].key.c_str(), key_length);
+        write(pfd[1], buff, sizeof(buff));
+      }
+      pid = -1;
+      write(pfd[1], &pid, 4);
+      std::cout << "mapper end, process line: " << line << std::endl;
+      // close fd
+      word_count.close_file();
+      close(pfd[0]);
+      close(pfd[1]);
+      return 0;
     }
-    //-----------------------------------------------------------
   }
+
+  while(num_map > 0){ // parent process wait to receive result from all mapper
+    int pdata;
+    read(pfd[0], &pdata, 4);
+    if(pdata >= 0){ // store immediate data
+      int value = pdata; // get value of hash map
+      // get key length of hash map
+      int key_length;
+      read(pfd[0], &key_length, 4);
+      // get key of hash map
+      char key[key_length];
+      read(pfd[0], key, key_length);
+      std::string skey(key, key_length);
+      // push raw data to buffer in master process
+      hash_map raw_data(skey, value);
+      data.push_back(raw_data);
+    }
+    else{ // get end signal from a mapper
+      num_map--;
+    }
+  }
+
+  while ((wpid = wait(&status)) > 0); // wait untill all slave process end
 
   word_count.sorting(data);
 
-  // parallel task can perform in here
-  //-----------------------------------------------------------
   std::vector<hash_map> ridata;
+
   for(int i = 0; i < data.size(); i++){
     if(ridata.size() == 0 || data[i].key == ridata[0].key){
       ridata.push_back(data[i]);
     }
     else{
-      hash_map result = word_count.reducer(ridata);
-      ridata.clear();
-      ridata.push_back(data[i]);
-      std::cout << result.key << "\t" << result.value << std::endl;
+      if(fork() == 0){
+        hash_map result = word_count.reducer(ridata);
+        std::cout << "reducer end, result:\t" << result.key << "\t" << result.value << std::endl;
+        word_count.close_file();
+        close(pfd[0]);
+        close(pfd[1]);
+        return 0;
+      }
+        ridata.clear();
+        ridata.push_back(data[i]);
     }
   }
   if(ridata.size() != 0){
-    hash_map result = word_count.reducer(ridata);
-    std::cout << result.key << "\t" << result.value << std::endl;
+    if(fork() == 0){
+      hash_map result = word_count.reducer(ridata);
+      std::cout << "reducer end, result:\t" << result.key << "\t" << result.value << std::endl;
+      word_count.close_file();
+      close(pfd[0]);
+      close(pfd[1]);
+      return 0;
+    }
   }
-  //-----------------------------------------------------------
-
+  while ((wpid = wait(&status)) > 0); // wait untill all slave process end
 
   word_count.close_file();
+  close(pfd[0]);
+  close(pfd[1]);
   return 0;
 }
