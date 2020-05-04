@@ -1,0 +1,90 @@
+\documentclass{article}
+\usepackage{geometry}
+\title{Prac 6: glusterfs - setup a trusted pool in linux}
+\author{usth student}
+\begin{document}
+\maketitle
+\section{Setup glusterfs in Archlinux repo}
+First, the glusterfs package include both glusterfs server and gluster native client in arch repo,
+so what you need to do is install it with pacman:
+\begin{verbatim}
+sudo pacman -S glusterfs
+\end{verbatim}
+
+Then the gluster daemon must be start on each peer/node machine
+\begin{verbatim}
+sudo systemctl start glusterd.service
+\end{verbatim}
+
+After running daemon, each machine become itself a trusted pool, the pool can be expanded by add
+more node machine to pool by any inside pool node machine:
+\begin{verbatim}
+# define host name for ip address
+sudo echo "127.0.0.1  gluster0" >> /etc/hosts
+sudo echo "192.168.0.102  gluster1" >> /etc/hosts
+
+# add new peer to trusted pool
+sudo gluster peer probe gluster1
+\end{verbatim}
+
+Now, a new volume can be created from the trusted pool on any machine inside pool. For newest version of
+glusterfs, the "stripe" function is deprecated, insteal, all new volume is set as distributed volume
+by default. So the distributed-replicated type volume can be created by set number of replica node smaller
+than actual number of bricks. Btw, the brick is simple a space in each node (considered as a directory).
+\begin{verbatim}
+sudo gluster volume create dr-volume replica 2 \
+gluster0:/linux/gluster/brick1 \
+gluster1:/home/lhud/Desktop/Share/glfs/b1 \
+gluster0:/linux/gluster/brick2 \
+gluster1:/home/lhud/Desktop/Share/glfs/b2
+\end{verbatim}
+
+The new volume created can be accessed after active
+\begin{verbatim}
+sudo gluster volume start dr-volume
+\end{verbatim}
+
+We can list out some information of volume
+\begin{verbatim}
+sudo gluster volume list
+sudo gluster volume info dr-volume
+\end{verbatim}
+
+From any client, the volume can mount as a normal file system with type: glusterfs. the fuse module must
+be actived before mounting:
+\begin{verbatim}
+sudo modprobe fuse
+sudo mount -t glusterfs gluster0:/dr-volume /mnt
+\end{verbatim}
+
+This is some benchmarks measurement from copy file to volume
+\begin{verbatim}
+du -h linusThesis.pdf
+460K	linusThesis.pdf
+
+dd if=linusThesis.pdf of=/mnt/linusThesis.pdf
+919+1 records in
+919+1 records out
+470861 bytes (471 kB, 460 KiB) copied, 0.136306 s, 3.5 MB/s
+919+1 records in
+919+1 records out
+470861 bytes (471 kB, 460 KiB) copied, 0.0865043 s, 5.4 MB/s
+919+1 records in
+919+1 records out
+470861 bytes (471 kB, 460 KiB) copied, 0.09253 s, 5.1 MB/s
+
+du -h test.txt
+6.3M	test.txt
+
+dd if=test.txt of=/mnt/linusThesis.pdf
+12875+1 records in
+12875+1 records out
+6592054 bytes (6.6 MB, 6.3 MiB) copied, 0.631172 s, 10.4 MB/s
+12875+1 records in
+12875+1 records out
+6592054 bytes (6.6 MB, 6.3 MiB) copied, 0.615666 s, 10.7 MB/s
+12875+1 records in
+12875+1 records out
+6592054 bytes (6.6 MB, 6.3 MiB) copied, 0.60536 s, 10.9 MB/s
+\end{verbatim}
+\end{document}
